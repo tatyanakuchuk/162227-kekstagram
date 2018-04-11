@@ -32,7 +32,7 @@ var getRandomIndex = function (arr) {
 };
 // Объект описание фотографии
 var userPhoto = {
-  url:function (i) {
+  url: function (i) {
     this.src = 'photos/' + i + '.jpg';
     return this.src;
   },
@@ -61,7 +61,7 @@ var newElement = function () {
   newPhoto.querySelector('.picture__stat--comments').textContent = userPhoto.comments(1, 2);
   fragment.appendChild(newPhoto);
   allPictures.appendChild(fragment);
-}
+};
 
 for (var i = 1; i <= 25; i++) {
   newElement();
