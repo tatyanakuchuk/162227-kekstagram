@@ -20,8 +20,7 @@ var photoDescriptions = [
 
 // Случайное число от min до max
 var findRandomInt = function (min, max) {
-  var rand = min + Math.random() * (max + 1 - min);
-  rand = Math.floor(rand);
+  var rand = Math.floor(min + Math.random() * (max + 1 - min));
   return rand;
 };
 
@@ -30,6 +29,7 @@ var getRandomIndex = function (arr) {
   var randomIndex = Math.floor(Math.random() * arr.length);
   return arr[randomIndex];
 };
+
 // Объект описание фотографии
 var userPhoto = {
   url: function (i) {
@@ -60,21 +60,24 @@ var newElement = function () {
   newPhoto.querySelector('.picture__stat--likes').textContent = userPhoto.likes(15, 200);
   newPhoto.querySelector('.picture__stat--comments').textContent = userPhoto.comments(1, 2);
   fragment.appendChild(newPhoto);
-  allPictures.appendChild(fragment);
 };
 
+
 for (var i = 1; i <= 25; i++) {
-  newElement();
+  newElement(i);
+  allPictures.appendChild(fragment);
 }
 
 // Большая фотка
 var bigPicture = document.querySelector('.big-picture');
 
+var socialComment = '<li class="social__comment social__comment--text"><img class="social__picture" src="img/avatar-' + findRandomInt(1, 6) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' + getRandomIndex(photoComments) + '</li>';
+
 var getBigPhoto = function () {
   bigPicture.querySelector('img').src = userPhoto.url(1);
   bigPicture.querySelector('.likes-count').textContent = userPhoto.likes(15, 200);
   bigPicture.querySelector('.comments-count').textContent = userPhoto.comments();
-  bigPicture.querySelector('.social__comments').innerHTML = '<li class="social__comment social__comment--text"><img class="social__picture" src="img/avatar-' + findRandomInt(1, 6) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' + getRandomIndex(photoComments) + '</li>';
+  bigPicture.querySelector('.social__comments').innerHTML = socialComment;
   document.querySelector('.social__comment-count').classList.add('visually-hidden');
   document.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
   document.querySelector('.social__comments li').style.maxWidth = '600px';
