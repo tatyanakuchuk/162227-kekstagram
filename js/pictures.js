@@ -20,8 +20,7 @@ var photoDescriptions = [
 
 // Случайное число от min до max
 var findRandomInt = function (min, max) {
-  var rand = Math.floor(min + Math.random() * (max + 1 - min));
-  return rand;
+  return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
 // Случайный элемент массива
@@ -33,16 +32,13 @@ var getRandomIndex = function (arr) {
 // Объект описание фотографии
 var userPhoto = {
   url: function (i) {
-    this.src = 'photos/' + i + '.jpg';
-    return this.src;
+    return 'photos/' + i + '.jpg';
   },
   likes: function (minLikes, maxLikes) {
-    var likes = findRandomInt(minLikes, maxLikes);
-    return likes;
+    return findRandomInt(minLikes, maxLikes);
   },
   comments: function (minСomments, maxСomments) {
-    var numberComments = findRandomInt(minСomments, maxСomments);
-    return numberComments;
+    return findRandomInt(minСomments, maxСomments);
   },
   description: function () {
     getRandomIndex(photoDescriptions);
@@ -53,7 +49,6 @@ var allPictures = document.querySelector('.pictures');
 var template = document.querySelector('#picture').content.querySelector('.picture__link');
 var fragment = document.createDocumentFragment();
 
-
 var newElement = function () {
   var newPhoto = template.cloneNode(true);
   newPhoto.querySelector('img').src = userPhoto.url(i);
@@ -62,22 +57,34 @@ var newElement = function () {
   fragment.appendChild(newPhoto);
 };
 
-
 for (var i = 1; i <= 25; i++) {
   newElement(i);
-  allPictures.appendChild(fragment);
 }
+
+allPictures.appendChild(fragment);
 
 // Большая фотка
 var bigPicture = document.querySelector('.big-picture');
 
-var socialComment = '<li class="social__comment social__comment--text"><img class="social__picture" src="img/avatar-' + findRandomInt(1, 6) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' + getRandomIndex(photoComments) + '</li>';
+var getRandomComment = function () {
+  return '<li class="social__comment social__comment--text"><img class="social__picture" src="img/avatar-' + findRandomInt(1, 6) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' + getRandomIndex(photoComments) + '</li>';
+}
+
+var numberComments = userPhoto.comments(1, 2);
+
+var writeComments = function () {
+  var comment = '';
+  for(i = 1; i <= numberComments; i++) {
+    comment += getRandomComment();
+  }
+  return comment;
+};
 
 var getBigPhoto = function () {
   bigPicture.querySelector('img').src = userPhoto.url(1);
   bigPicture.querySelector('.likes-count').textContent = userPhoto.likes(15, 200);
   bigPicture.querySelector('.comments-count').textContent = userPhoto.comments();
-  bigPicture.querySelector('.social__comments').innerHTML = socialComment;
+  bigPicture.querySelector('.social__comments').innerHTML = writeComments();
   document.querySelector('.social__comment-count').classList.add('visually-hidden');
   document.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
   document.querySelector('.social__comments li').style.maxWidth = '600px';
