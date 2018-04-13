@@ -68,13 +68,13 @@ var bigPicture = document.querySelector('.big-picture');
 
 var getRandomComment = function () {
   return '<li class="social__comment social__comment--text"><img class="social__picture" src="img/avatar-' + findRandomInt(1, 6) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' + getRandomIndex(photoComments) + '</li>';
-}
+};
 
 var numberComments = userPhoto.comments(1, 2);
 
 var writeComments = function () {
   var comment = '';
-  for(i = 1; i <= numberComments; i++) {
+  for (i = 1; i <= numberComments; i++) {
     comment += getRandomComment();
   }
   return comment;
