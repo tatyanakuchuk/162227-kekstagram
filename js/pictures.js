@@ -72,7 +72,7 @@ var getRandomComment = function () {
 
 var writeComments = function (min, max) {
   var comment = '';
-  for(i = 1; i <= userPhoto.comments(min, max); i++) {
+  for (i = 1; i <= userPhoto.comments(min, max); i++) {
     comment += getRandomComment();
   }
   return comment;
