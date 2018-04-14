@@ -29,31 +29,15 @@ var getRandomIndex = function (arr) {
   return arr[randomIndex];
 };
 
-// Объект описание фотографии
-var userPhoto = {
-  url: function (i) {
-    return 'photos/' + i + '.jpg';
-  },
-  likes: function (min, max) {
-    return findRandomInt(min, max);
-  },
-  comments: function (min, max) {
-    return findRandomInt(min, max);
-  },
-  description: function () {
-    getRandomIndex(photoDescriptions);
-  }
-};
-
 var allPictures = document.querySelector('.pictures');
 var template = document.querySelector('#picture').content.querySelector('.picture__link');
 var fragment = document.createDocumentFragment();
 
 var newElement = function () {
   var newPhoto = template.cloneNode(true);
-  newPhoto.querySelector('img').src = userPhoto.url(i);
-  newPhoto.querySelector('.picture__stat--likes').textContent = userPhoto.likes(15, 200);
-  newPhoto.querySelector('.picture__stat--comments').textContent = userPhoto.comments(1, 2);
+  newPhoto.querySelector('img').src = 'photos/' + i + '.jpg';
+  newPhoto.querySelector('.picture__stat--likes').textContent = findRandomInt(15, 200);
+  newPhoto.querySelector('.picture__stat--comments').textContent = findRandomInt(1, 2);
   fragment.appendChild(newPhoto);
 };
 
@@ -72,16 +56,16 @@ var getRandomComment = function () {
 
 var writeComments = function (min, max) {
   var comment = '';
-  for (i = 1; i <= userPhoto.comments(min, max); i++) {
+  for (i = 1; i <= findRandomInt(min, max); i++) {
     comment += getRandomComment();
   }
   return comment;
 };
 
 var getBigPhoto = function () {
-  bigPicture.querySelector('img').src = userPhoto.url(1);
-  bigPicture.querySelector('.likes-count').textContent = userPhoto.likes(15, 200);
-  bigPicture.querySelector('.comments-count').textContent = userPhoto.comments();
+  bigPicture.querySelector('img').src = 'photos/' + 1 + '.jpg';
+  bigPicture.querySelector('.likes-count').textContent = findRandomInt(15, 200);
+  bigPicture.querySelector('.comments-count').textContent = findRandomInt(1, 2);
   bigPicture.querySelector('.social__comments').innerHTML = writeComments(1, 2);
   document.querySelector('.social__comment-count').classList.add('visually-hidden');
   document.querySelector('.social__comment-loadmore').classList.add('visually-hidden');
