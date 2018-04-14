@@ -64,6 +64,7 @@ var writeComments = function (min, max) {
 
 var getBigPhoto = function () {
   bigPicture.querySelector('img').src = 'photos/' + 1 + '.jpg';
+  bigPicture.querySelector('.social__caption').innerHTML = getRandomIndex(photoDescriptions);
   bigPicture.querySelector('.likes-count').textContent = findRandomInt(15, 200);
   bigPicture.querySelector('.comments-count').textContent = findRandomInt(1, 2);
   bigPicture.querySelector('.social__comments').innerHTML = writeComments(1, 2);
