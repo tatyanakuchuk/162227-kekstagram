@@ -75,19 +75,36 @@ var getBigPhoto = function () {
 };
 // getBigPhoto();
 
+
 // ДОБАВЛЕНИЕ ФОТО
 var uploadFile = document.querySelector('.img-upload__input');
-var uploadFormArea = document.querySelector('.img-upload__overlay');
-var uploadFormClose = document.querySelector('#upload-cancel');
+var uploadPopup = document.querySelector('.img-upload__overlay');
+var uploadPopupClose = document.querySelector('#upload-cancel');
 var uploadForm = document.querySelector('.img-upload__form');
+
+var popupEscPressHandler = function (evt) {
+    if (evt.keyCode === 27) {
+      closePopup();
+    }
+};
+
+var openPopup = function () {
+  uploadPopup.classList.remove('hidden');
+  document.addEventListener('keydown', popupEscPressHandler);
+};
+
+var closePopup = function () {
+  uploadPopup.classList.add('hidden');
+  document.removeEventListener('keydown', popupEscPressHandler);
+};
 
 uploadFile.addEventListener('change', function() {
   scaleValue.value = defaultValue + '%';
-  uploadFormArea.classList.remove('hidden');
+  openPopup();
 });
 
-uploadFormClose.addEventListener('click', function() {
-  uploadFormArea.classList.add('hidden');
+uploadPopupClose.addEventListener('click', function() {
+  closePopup();
   imgPreview.removeAttribute('style');
   uploadForm.reset();
 });
@@ -151,3 +168,19 @@ radioChangeHandler();
 
 var radioArea = document.querySelector('.effects__list');
 radioArea.addEventListener('change', radioChangeHandler);
+
+
+// ИНТЕНСИВНОСТЬ ЭФФЕКТА
+var rangePin = document.querySelector('.scale__pin');
+var rangeValue = document.querySelector('.scale__value');
+var rangeLine = document.querySelector('.scale__line');
+var rangeLevel = document.querySelector('.scale__level');
+
+var rangeDragHandler = function () {
+  var rangeLineWidth = rangeLine.getBoundingClientRect().width;
+  var pinCoordX = rangePin.offsetLeft;
+  rangeValue.value = Math.round(pinCoordX * 100 / rangeLineWidth);
+  rangeLevel.style.width = rangeValue.value + '%';
+};
+
+rangePin.addEventListener('mouseup', rangeDragHandler);
