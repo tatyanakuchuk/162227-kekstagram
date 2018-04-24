@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Tetiana Kuchuk](https://up.htmlacademy.ru/javascript/13/user/162227).
-* Наставник: `Неизвестно`.
+* Наставник: `Роман Мисюрин`.
 
 ---
 
