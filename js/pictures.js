@@ -263,18 +263,51 @@ radioArea.addEventListener('change', radioChangeHandler);
 
 // ХЭШ-ТЕГИ
 var hashtagsInput = document.querySelector('.text__hashtags');
+var regexp = /#\S+/i;
+
 var hashtagsInputHandler = function () {
-  var regexp = /^#\S{20}$/i;
-  if (/^#\S{20}$/i.test(hashtagsInput.value)) {
-    console.log(1);
+  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
+  if (hashtagsArray.length > 5) {
+    hashtagsInput.setCustomValidity('Количество хэштегов не должно превышать 5');
   }
-  else {
-    console.log(2);
+  for (i = 1; i <= hashtagsArray.length; i++) {
+    if (!regexp.test(hashtagsArray[i]))  {
+      hashtagsInput.setCustomValidity('Хэштег должен начинаться со знака #');
+    }
+    if (hashtagsArray[i] === hashtagsArray[i-1]) {
+      hashtagsInput.setCustomValidity('Хэштеги не должны дублироваться');
+      break;
+    }
   }
-  var hashtagsStr = hashtagsInput.value;
+};
+hashtagsInputHandler();
+
+var getNumberElem = function () {
+  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
+  for (i = 1; i <= hashtagsArray.length; i++) {
+    var hashtag = hashtagsArray[i].toString;
+    if (hashtag.length > 20) {
+      console.log('Хэштег не должен превышать длину 20 символов');
+    }
+  }
 };
 
-hashtagsInput.addEventListener('keyup', hashtagsInputHandler);
+var getHashtagsNumber = function () {
+  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
+  if (hashtagsArray.length > 5) {
+    hashtagsInput.setCustomValidity('Количество хэштегов не должно превышать 5');
+  }
+};
+
+var getEqualElem = function () {
+  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
+  for (i = 1; i <= hashtagsArray.length; i++) {
+    if (hashtagsArray[i] === hashtagsArray[i-1]) {
+      hashtagsInput.setCustomValidity('Хэштеги не должны дублироваться');
+      break;
+    }
+  }
+};
 
 hashtagsInput.addEventListener('focus', function () {
   document.removeEventListener('keydown', popupEscPressHandler);
@@ -282,6 +315,7 @@ hashtagsInput.addEventListener('focus', function () {
 hashtagsInput.addEventListener('blur', function () {
   document.addEventListener('keydown', popupEscPressHandler);
 });
+
 // Комментарий
 var uploadComment = document.querySelector('.text__description');
 var textareaChangeHandler = function () {
