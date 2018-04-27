@@ -92,15 +92,15 @@ var closeBigPhoto = function () {
 };
 
 var bigPhotoClose = document.querySelector('.big-picture__cancel');
-  bigPhotoClose.addEventListener('click', function () {
-    closeBigPhoto();
-  });
+bigPhotoClose.addEventListener('click', function () {
+  closeBigPhoto();
+});
 
 
 // Показ изображения в полноэкранном режиме
 var showBigPhoto = function () {
   var thumbsPhotos = document.querySelectorAll('.picture__img');
-  for (var i = 0; i < thumbsPhotos.length; i++) {
+  for (i = 0; i < thumbsPhotos.length; i++) {
     thumbsPhotos[i].addEventListener('click', getBigPhoto);
   }
 };
@@ -113,9 +113,9 @@ var uploadPopupClose = document.querySelector('#upload-cancel');
 var uploadForm = document.querySelector('.img-upload__form');
 
 var popupEscPressHandler = function (evt) {
-    if (evt.keyCode === 27) {
-      closePopup();
-    }
+  if (evt.keyCode === 27) {
+    closePopup();
+  }
 };
 
 var openPopup = function () {
@@ -128,12 +128,12 @@ var closePopup = function () {
   document.removeEventListener('keydown', popupEscPressHandler);
 };
 
-uploadFile.addEventListener('change', function() {
+uploadFile.addEventListener('change', function () {
   openPopup();
   scaleValue.value = defaultValue + '%';
 });
 
-uploadPopupClose.addEventListener('click', function() {
+uploadPopupClose.addEventListener('click', function () {
   closePopup();
   imgPreview.removeAttribute('style');
   uploadForm.reset();
@@ -152,7 +152,7 @@ var scaleValue = document.querySelector('.resize__control--value');
 scaleValue.value = defaultValue + '%';
 var imgPreview = document.querySelector('.img-upload__preview  img');
 var scaleImgPreview = function (val) {
-  imgPreview.style.transform = 'scale(' + val/100 + ')';
+  imgPreview.style.transform = 'scale(' + val / 100 + ')';
 };
 // Функция при клике на минус
 var decreaseControlClickHandler = function () {
@@ -263,51 +263,35 @@ radioArea.addEventListener('change', radioChangeHandler);
 
 // ХЭШ-ТЕГИ
 var hashtagsInput = document.querySelector('.text__hashtags');
-var regexp = /#\S+/i;
+var regexp = /^#\S+/i;
+
+var errorMessage = function (elem, text) {
+  elem.setCustomValidity(text);
+};
 
 var hashtagsInputHandler = function () {
-  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
+  var hashtagsStr = hashtagsInput.value.toLowerCase().trim();
+  var hashtagsArray = hashtagsStr.split(' ');
+  // Прверка на количество хештегов
   if (hashtagsArray.length > 5) {
-    hashtagsInput.setCustomValidity('Количество хэштегов не должно превышать 5');
+    errorMessage(hashtagsInput, 'Количество хэштегов не должно превышать 5');
+  } else {
+    errorMessage(hashtagsInput, '');
   }
+
   for (i = 1; i <= hashtagsArray.length; i++) {
-    if (!regexp.test(hashtagsArray[i]))  {
-      hashtagsInput.setCustomValidity('Хэштег должен начинаться со знака #');
-    }
-    if (hashtagsArray[i] === hashtagsArray[i-1]) {
-      hashtagsInput.setCustomValidity('Хэштеги не должны дублироваться');
+    // Проверка на повторяющиеся хештеги
+    if (hashtagsArray[i] === hashtagsArray[i - 1]) {
+      errorMessage(hashtagsInput, 'Хэштеги не должны повторяться');
       break;
-    }
-  }
-};
-hashtagsInputHandler();
-
-var getNumberElem = function () {
-  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
-  for (i = 1; i <= hashtagsArray.length; i++) {
-    var hashtag = hashtagsArray[i].toString;
-    if (hashtag.length > 20) {
-      console.log('Хэштег не должен превышать длину 20 символов');
+    } else {
+      errorMessage(hashtagsInput, '');
     }
   }
 };
 
-var getHashtagsNumber = function () {
-  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
-  if (hashtagsArray.length > 5) {
-    hashtagsInput.setCustomValidity('Количество хэштегов не должно превышать 5');
-  }
-};
-
-var getEqualElem = function () {
-  var hashtagsArray = hashtagsInput.value.toLowerCase().split(' ');
-  for (i = 1; i <= hashtagsArray.length; i++) {
-    if (hashtagsArray[i] === hashtagsArray[i-1]) {
-      hashtagsInput.setCustomValidity('Хэштеги не должны дублироваться');
-      break;
-    }
-  }
-};
+var btnImgUpload = document.querySelector('.img-upload__submit');
+btnImgUpload.addEventListener('click', hashtagsInputHandler);
 
 hashtagsInput.addEventListener('focus', function () {
   document.removeEventListener('keydown', popupEscPressHandler);
