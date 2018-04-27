@@ -278,9 +278,18 @@ var hashtagsInputHandler = function () {
   } else {
     errorMessage(hashtagsInput, '');
   }
-
+  // Проверка длины хештегов
+  for (i = 0; i < hashtagsArray.length; i++) {
+    if (hashtagsArray[i].length > 20) {
+      errorMessage(hashtagsInput, 'Длина хештега не должно превышать 20 символов');
+      break;
+    }
+    else {
+      errorMessage(hashtagsInput, '');
+    }
+  }
+  // Проверка на повторяющиеся хештеги
   for (i = 1; i <= hashtagsArray.length; i++) {
-    // Проверка на повторяющиеся хештеги
     if (hashtagsArray[i] === hashtagsArray[i - 1]) {
       errorMessage(hashtagsInput, 'Хэштеги не должны повторяться');
       break;
