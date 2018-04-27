@@ -264,9 +264,11 @@ radioArea.addEventListener('change', radioChangeHandler);
 // ХЭШ-ТЕГИ
 var hashtagsInput = document.querySelector('.text__hashtags');
 var regexp = /^#\S+/i;
+var space = /\s#/;
 
 var errorMessage = function (elem, text) {
   elem.setCustomValidity(text);
+  elem.style.outline = '2px solid red';
 };
 
 var hashtagsInputHandler = function () {
@@ -284,15 +286,24 @@ var hashtagsInputHandler = function () {
       errorMessage(hashtagsInput, 'Длина хештега не должно превышать 20 символов');
       break;
     }
+    if (hashtagsArray[i].length < 2) {
+      errorMessage(hashtagsInput, 'Xештег не может состоять только из символа #');
+      break;
+    }
     if (!regexp.test(hashtagsArray[i])) {
       errorMessage(hashtagsInput, 'Хештег должен начинаться с символа #');
       break;
     }
   }
-  // Проверка на повторяющиеся хештеги
-  for (i = 1; i <= hashtagsArray.length; i++) {
+  for (i = 1; i < hashtagsArray.length; i++) {
+    // Проверка на повторяющиеся хештеги
     if (hashtagsArray[i] === hashtagsArray[i - 1]) {
       errorMessage(hashtagsInput, 'Хэштеги не должны повторяться');
+      break;
+    }
+    // Проверка на наличие пробела ?????
+    if (!space.test(hashtagsArray[i])) {
+      errorMessage(hashtagsInput, 'Между хэштегами должны быть пробелы');
       break;
     }
   }
