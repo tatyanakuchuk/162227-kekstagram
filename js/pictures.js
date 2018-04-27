@@ -272,11 +272,11 @@ var errorMessage = function (elem, text) {
 var hashtagsInputHandler = function () {
   var hashtagsStr = hashtagsInput.value.toLowerCase().trim();
   var hashtagsArray = hashtagsStr.split(' ');
+  errorMessage(hashtagsInput, '');
+
   // Прверка на количество хештегов
   if (hashtagsArray.length > 5) {
     errorMessage(hashtagsInput, 'Количество хэштегов не должно превышать 5');
-  } else {
-    errorMessage(hashtagsInput, '');
   }
   // Проверка длины хештегов
   for (i = 0; i < hashtagsArray.length; i++) {
@@ -284,8 +284,9 @@ var hashtagsInputHandler = function () {
       errorMessage(hashtagsInput, 'Длина хештега не должно превышать 20 символов');
       break;
     }
-    else {
-      errorMessage(hashtagsInput, '');
+    if (!regexp.test(hashtagsArray[i])) {
+      errorMessage(hashtagsInput, 'Хештег должен начинаться с символа #');
+      break;
     }
   }
   // Проверка на повторяющиеся хештеги
@@ -293,8 +294,6 @@ var hashtagsInputHandler = function () {
     if (hashtagsArray[i] === hashtagsArray[i - 1]) {
       errorMessage(hashtagsInput, 'Хэштеги не должны повторяться');
       break;
-    } else {
-      errorMessage(hashtagsInput, '');
     }
   }
 };
