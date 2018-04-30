@@ -234,7 +234,6 @@ var getLevelEffect = function (minLevel, maxLevel) {
 // Эффект ХРОМ
 var effectСhromeHandler = function (minLevel, maxLevel) {
   return 'grayscale(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
-
 };
 // Эффект СЕПИЯ
 var effectSepiaHandler = function (minLevel, maxLevel) {
@@ -282,9 +281,9 @@ var radioChangeHandler = function () {
   var range = document.querySelector('.img-upload__scale');
   if (imgPreview.classList.contains('effects__preview--none')) {
     range.classList.add('hidden');
-    imgPreview.removeAttribute('style');
   } else {
     range.classList.remove('hidden');
+    rangePinMouseupHandler();
   }
 };
 radioChangeHandler();
