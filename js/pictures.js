@@ -156,7 +156,7 @@ var scaleImgPreview = function (val) {
 };
 // Функция при клике на минус
 var decreaseControlClickHandler = function () {
-  var currentValue = parseInt( scaleValue.value );
+  var currentValue = parseInt(scaleValue.value);
   while (currentValue > MIN_VALUE) {
     var newValue = currentValue - step;
     scaleImgPreview(newValue);
@@ -165,7 +165,7 @@ var decreaseControlClickHandler = function () {
 };
 // Функция при клике на плюс
 var increaseControlClickHandler = function () {
-  var currentValue = parseInt( scaleValue.value );
+  var currentValue = parseInt(scaleValue.value);
   while (currentValue < MAX_VALUE) {
     var newValue = currentValue + step;
     scaleImgPreview(newValue);
@@ -201,7 +201,7 @@ var rangePinMoveHandler = function (evt) {
     }
     rangePin.style.left = newLeft + 'px';
   };
-  document.onmouseup = function() {
+  document.onmouseup = function () {
     document.onmousemove = null;
     document.onmouseup = null;
     rangePinMouseupHandler();
@@ -233,41 +233,37 @@ var getLevelEffect = function (minLevel, maxLevel) {
 
 // Эффект ХРОМ
 var effectСhromeHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'grayscale(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
+  return 'grayscale(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 
 };
 // Эффект СЕПИЯ
 var effectSepiaHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'sepia(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
+  return 'sepia(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 // Эффект МАРВИН
 var effectMarvinHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'invert(' + Math.round(getLevelEffect(minLevel, maxLevel)) + '%' + ')';
+  return 'invert(' + Math.round(getLevelEffect(minLevel, maxLevel)) + '%' + ')';
 };
 // Эффект ФОБОС
 var effectPhobosHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'blur(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + 'px' + ')';
+  return 'blur(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + 'px' + ')';
 };
 // Эффект ЗНОЙ
 var effectHeatHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'brightness(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
+  return 'brightness(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 
 var rangePinMouseupHandler = function () {
   if (imgPreview.classList.contains('effects__preview--chrome')) {
-    effectСhromeHandler(0, 1);
-  }
-  else if (imgPreview.classList.contains('effects__preview--sepia')) {
-    effectSepiaHandler(0, 1);
-  }
-  else if (imgPreview.classList.contains('effects__preview--marvin')) {
-    effectMarvinHandler(0, 100);
-  }
-  else if (imgPreview.classList.contains('effects__preview--phobos')) {
-    effectPhobosHandler(0, 3);
-  }
-  else if (imgPreview.classList.contains('effects__preview--heat')) {
-    effectHeatHandler(1, 3);
+    imgPreview.style.filter = effectСhromeHandler(0, 1);
+  } else if (imgPreview.classList.contains('effects__preview--sepia')) {
+    imgPreview.style.filter = effectSepiaHandler(0, 1);
+  } else if (imgPreview.classList.contains('effects__preview--marvin')) {
+    imgPreview.style.filter = effectMarvinHandler(0, 100);
+  } else if (imgPreview.classList.contains('effects__preview--phobos')) {
+    imgPreview.style.filter = effectPhobosHandler(0, 3);
+  } else if (imgPreview.classList.contains('effects__preview--heat')) {
+    imgPreview.style.filter = effectHeatHandler(1, 3);
   }
 };
 
@@ -287,8 +283,7 @@ var radioChangeHandler = function () {
   if (imgPreview.classList.contains('effects__preview--none')) {
     range.classList.add('hidden');
     imgPreview.removeAttribute('style');
-  }
-  else {
+  } else {
     range.classList.remove('hidden');
   }
 };
@@ -340,12 +335,11 @@ var hashtagsInputHandler = function () {
     } else if (!regexp.test(hashtagsArray[i])) {
       showErrorMessage(hashtagsInput, 'Хештег должен начинаться с символа #', errorOutlineColor);
       break;
-      }
-    else if (hashtagsArray[i].length > 20) {
+    } else if (hashtagsArray[i].length > 20) {
       showErrorMessage(hashtagsInput, 'Длина хештега не должна превышать 20 символов', errorOutlineColor);
       error = true;
       break;
-      }
+    }
   }
   if (error === true) {
     formImgUpload.addEventListener('submit', formEventDefaultHandler);
