@@ -156,7 +156,7 @@ var scaleImgPreview = function (val) {
 };
 // Функция при клике на минус
 var decreaseControlClickHandler = function () {
-  var currentValue = parseInt(scaleValue.value);
+  var currentValue = parseInt( scaleValue.value );
   while (currentValue > MIN_VALUE) {
     var newValue = currentValue - step;
     scaleImgPreview(newValue);
@@ -165,7 +165,7 @@ var decreaseControlClickHandler = function () {
 };
 // Функция при клике на плюс
 var increaseControlClickHandler = function () {
-  var currentValue = parseInt(scaleValue.value);
+  var currentValue = parseInt( scaleValue.value );
   while (currentValue < MAX_VALUE) {
     var newValue = currentValue + step;
     scaleImgPreview(newValue);
@@ -190,7 +190,7 @@ var rangePinMoveHandler = function (evt) {
   var pinCoords = getCoords(rangePin);
   var shiftX = evt.pageX - pinCoords.left;
   var sliderCoords = getCoords(rangeLine);
-  document.onmousemove = function(evt) {
+  document.onmousemove = function (evt) {
     var newLeft = evt.pageX - shiftX - sliderCoords.left;
     if (newLeft < 0) {
       newLeft = 0;
@@ -200,17 +200,17 @@ var rangePinMoveHandler = function (evt) {
       newLeft = rightEdge;
     }
     rangePin.style.left = newLeft + 'px';
-  }
+  };
   document.onmouseup = function() {
     document.onmousemove = null;
     document.onmouseup = null;
     rangePinMouseupHandler();
   };
   return false;
-}
+};
 rangePin.addEventListener('mousedown', rangePinMoveHandler);
 
-rangePin.ondragstart = function() {
+rangePin.ondragstart = function () {
   return false;
 };
 
@@ -337,26 +337,21 @@ var hashtagsInputHandler = function () {
       showErrorMessage(hashtagsInput, 'Xештег не может состоять только из одного символа', errorOutlineColor);
       error = true;
       break;
-    }
-    else if (!regexp.test(hashtagsArray[i])) {
+    } else if (!regexp.test(hashtagsArray[i])) {
       showErrorMessage(hashtagsInput, 'Хештег должен начинаться с символа #', errorOutlineColor);
       break;
-    }
+      }
     else if (hashtagsArray[i].length > 20) {
       showErrorMessage(hashtagsInput, 'Длина хештега не должна превышать 20 символов', errorOutlineColor);
       error = true;
       break;
-    }
+      }
   }
   if (error === true) {
     formImgUpload.addEventListener('submit', formEventDefaultHandler);
   }
 };
 
-
-
-
-var formImgUpload = document.querySelector('.img-upload__form');
 formImgUpload.addEventListener('submit', hashtagsInputHandler);
 
 hashtagsInput.addEventListener('focus', function () {
