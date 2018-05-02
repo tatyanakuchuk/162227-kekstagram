@@ -92,15 +92,15 @@ var closeBigPhoto = function () {
 };
 
 var bigPhotoClose = document.querySelector('.big-picture__cancel');
-  bigPhotoClose.addEventListener('click', function () {
-    closeBigPhoto();
-  });
+bigPhotoClose.addEventListener('click', function () {
+  closeBigPhoto();
+});
 
 
 // Показ изображения в полноэкранном режиме
 var showBigPhoto = function () {
   var thumbsPhotos = document.querySelectorAll('.picture__img');
-  for (var i = 0; i < thumbsPhotos.length; i++) {
+  for (i = 0; i < thumbsPhotos.length; i++) {
     thumbsPhotos[i].addEventListener('click', getBigPhoto);
   }
 };
@@ -113,9 +113,9 @@ var uploadPopupClose = document.querySelector('#upload-cancel');
 var uploadForm = document.querySelector('.img-upload__form');
 
 var popupEscPressHandler = function (evt) {
-    if (evt.keyCode === 27) {
-      closePopup();
-    }
+  if (evt.keyCode === 27) {
+    closePopup();
+  }
 };
 
 var openPopup = function () {
@@ -128,12 +128,12 @@ var closePopup = function () {
   document.removeEventListener('keydown', popupEscPressHandler);
 };
 
-uploadFile.addEventListener('change', function() {
+uploadFile.addEventListener('change', function () {
   openPopup();
   scaleValue.value = defaultValue + '%';
 });
 
-uploadPopupClose.addEventListener('click', function() {
+uploadPopupClose.addEventListener('click', function () {
   closePopup();
   imgPreview.removeAttribute('style');
   uploadForm.reset();
@@ -152,25 +152,27 @@ var scaleValue = document.querySelector('.resize__control--value');
 scaleValue.value = defaultValue + '%';
 var imgPreview = document.querySelector('.img-upload__preview  img');
 var scaleImgPreview = function (val) {
-  imgPreview.style.transform = 'scale(' + val/100 + ')';
+  imgPreview.style.transform = 'scale(' + val / 100 + ')';
 };
 // Функция при клике на минус
 var decreaseControlClickHandler = function () {
-  var currentValue = parseInt(scaleValue.value);
+  var currentValue = parseInt(scaleValue.value, 10);
   while (currentValue > MIN_VALUE) {
     var newValue = currentValue - step;
     scaleImgPreview(newValue);
-    return scaleValue.value = newValue + '%';
+    scaleValue.value = newValue + '%';
   }
+  return;
 };
 // Функция при клике на плюс
 var increaseControlClickHandler = function () {
-  var currentValue = parseInt(scaleValue.value);
+  var currentValue = parseInt(scaleValue.value, 10);
   while (currentValue < MAX_VALUE) {
     var newValue = currentValue + step;
     scaleImgPreview(newValue);
-    return scaleValue.value = newValue + '%';
+    scaleValue.value = newValue + '%';
   }
+  return;
 };
 decreaseControl.addEventListener('click', decreaseControlClickHandler);
 increaseControl.addEventListener('click', increaseControlClickHandler);
@@ -186,6 +188,42 @@ var defaultPin = 100;
 rangePin.style.left = defaultPin + '%';
 rangeLevel.style.width = defaultPin + '%';
 
+var rangePinMoveHandler = function (evt) {
+  var pinCoords = getCoords(rangePin);
+  var shiftX = evt.pageX - pinCoords.left;
+  var sliderCoords = getCoords(rangeLine);
+  document.onmousemove = function (evt) {
+    var newLeft = evt.pageX - shiftX - sliderCoords.left;
+    if (newLeft < 0) {
+      newLeft = 0;
+    }
+    var rightEdge = rangeLine.offsetWidth;
+    if (newLeft > rightEdge) {
+      newLeft = rightEdge;
+    }
+    rangePin.style.left = newLeft + 'px';
+  };
+  document.onmouseup = function () {
+    document.onmousemove = null;
+    document.onmouseup = null;
+    rangePinMouseupHandler();
+  };
+  return false;
+};
+rangePin.addEventListener('mousedown', rangePinMoveHandler);
+
+rangePin.ondragstart = function () {
+  return false;
+};
+
+var getCoords = function (elem) {
+  var box = elem.getBoundingClientRect();
+  return {
+    top: box.top + pageYOffset,
+    left: box.left + pageXOffset
+  };
+};
+
 var getLevelEffect = function (minLevel, maxLevel) {
   var rangeLineWidth = rangeLine.getBoundingClientRect().width;
   var pinCoordX = rangePin.offsetLeft;
@@ -197,44 +235,38 @@ var getLevelEffect = function (minLevel, maxLevel) {
 
 // Эффект ХРОМ
 var effectСhromeHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'grayscale(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
+  return 'grayscale(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 // Эффект СЕПИЯ
 var effectSepiaHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'sepia(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
+  return 'sepia(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 // Эффект МАРВИН
 var effectMarvinHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'invert(' + Math.round(getLevelEffect(minLevel, maxLevel)) + '%' + ')';
+  return 'invert(' + Math.round(getLevelEffect(minLevel, maxLevel)) + '%' + ')';
 };
 // Эффект ФОБОС
 var effectPhobosHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'blur(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + 'px' + ')';
+  return 'blur(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + 'px' + ')';
 };
 // Эффект ЗНОЙ
 var effectHeatHandler = function (minLevel, maxLevel) {
-  return imgPreview.style.filter = 'brightness(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
+  return 'brightness(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 
-var rangePinDragHandler = function () {
+var rangePinMouseupHandler = function () {
   if (imgPreview.classList.contains('effects__preview--chrome')) {
-    effectСhromeHandler(0, 1);
-  }
-  if (imgPreview.classList.contains('effects__preview--sepia')) {
-    effectSepiaHandler(0, 1);
-  }
-  if (imgPreview.classList.contains('effects__preview--marvin')) {
-    effectMarvinHandler(0, 100);
-  }
-  if (imgPreview.classList.contains('effects__preview--phobos')) {
-    effectPhobosHandler(0, 3);
-  }
-  if (imgPreview.classList.contains('effects__preview--heat')) {
-    effectHeatHandler(1, 3);
+    imgPreview.style.filter = effectСhromeHandler(0, 1);
+  } else if (imgPreview.classList.contains('effects__preview--sepia')) {
+    imgPreview.style.filter = effectSepiaHandler(0, 1);
+  } else if (imgPreview.classList.contains('effects__preview--marvin')) {
+    imgPreview.style.filter = effectMarvinHandler(0, 100);
+  } else if (imgPreview.classList.contains('effects__preview--phobos')) {
+    imgPreview.style.filter = effectPhobosHandler(0, 3);
+  } else if (imgPreview.classList.contains('effects__preview--heat')) {
+    imgPreview.style.filter = effectHeatHandler(1, 3);
   }
 };
-rangePin.addEventListener('mouseup', rangePinDragHandler);
-
 
 var radioChangeHandler = function () {
   var radioButtonsList = document.querySelectorAll('.effects__radio');
@@ -245,36 +277,86 @@ var radioChangeHandler = function () {
     if (radioButtonsList[i].checked) {
       radioButtonVal = radioButtonsList[i].value;
       imgPreview.classList.add('effects__preview--' + radioButtonVal);
+      rangePinMouseupHandler();
     }
   }
   var range = document.querySelector('.img-upload__scale');
   if (imgPreview.classList.contains('effects__preview--none')) {
     range.classList.add('hidden');
-    imgPreview.removeAttribute('style');
-  }
-  else {
+  } else {
     range.classList.remove('hidden');
+    rangePinMouseupHandler();
   }
 };
 radioChangeHandler();
 var radioArea = document.querySelector('.effects__list');
 radioArea.addEventListener('change', radioChangeHandler);
 
-
 // ХЭШ-ТЕГИ
 var hashtagsInput = document.querySelector('.text__hashtags');
-var hashtagsInputHandler = function () {
-  var regexp = /^#\S{20}$/i;
-  if (/^#\S{20}$/i.test(hashtagsInput.value)) {
-    console.log(1);
-  }
-  else {
-    console.log(2);
-  }
-  var hashtagsStr = hashtagsInput.value;
+var regexp = /^#\S+/i;
+
+var showErrorMessage = function (elem, text, colorOutline) {
+  elem.setCustomValidity(text);
+  elem.style.outline = '2px solid ' + colorOutline;
 };
 
-hashtagsInput.addEventListener('keyup', hashtagsInputHandler);
+
+var errorText = {
+  number: 'Количество хэштегов не должно превышать 5',
+  identical: 'Хэштеги не должны повторяться',
+  oneСharacter: 'Xештег не может состоять только из одного символа',
+  missingHashSymbol: 'Хештег должен начинаться с символа #',
+  length: 'Длина хештега не должна превышать 20 символов'
+};
+
+var formImgUpload = document.querySelector('.img-upload__form');
+
+var hashtagsInputHandler = function (evt) {
+  evt.preventDefault();
+
+  var hashtagsArray = hashtagsInput.value.toLowerCase().trim().split(' ');
+  var errorOutlineColor = 'red';
+  var noErrorOutlineColor = 'transparent';
+
+  showErrorMessage(hashtagsInput, '', noErrorOutlineColor);
+
+  if (hashtagsArray.length > 5) {
+    showErrorMessage(hashtagsInput, errorText.number, errorOutlineColor);
+  }
+
+  var obj = {};
+  for (i = 0; i < hashtagsArray.length; i++) {
+    if (obj[hashtagsArray[i]]) {
+      obj[hashtagsArray[i]]++;
+    } else {
+      obj[hashtagsArray[i]] = 1;
+    }
+  }
+  for (i in obj) {
+    if (obj[i] > 1) {
+      showErrorMessage(hashtagsInput, errorText.identical, errorOutlineColor);
+    }
+  }
+
+  for (i = 0; i < hashtagsArray.length; i++) {
+    if (hashtagsArray[i].length < 2 && !hashtagsArray[i].length === '') {
+      showErrorMessage(hashtagsInput, errorText.oneСharacter, errorOutlineColor);
+      break;
+    } else if (!regexp.test(hashtagsArray[i]) && !hashtagsArray[i].length === '') {
+      showErrorMessage(hashtagsInput, errorText.missingHashSymbol, errorOutlineColor);
+      break;
+    } else if (hashtagsArray[i].length > 20) {
+      showErrorMessage(hashtagsInput, errorText.length, errorOutlineColor);
+      break;
+    }
+  }
+  if (hashtagsInput.checkValidity()) {
+    formImgUpload.submit();
+  }
+};
+
+formImgUpload.addEventListener('submit', hashtagsInputHandler);
 
 hashtagsInput.addEventListener('focus', function () {
   document.removeEventListener('keydown', popupEscPressHandler);
@@ -282,6 +364,7 @@ hashtagsInput.addEventListener('focus', function () {
 hashtagsInput.addEventListener('blur', function () {
   document.addEventListener('keydown', popupEscPressHandler);
 });
+
 // Комментарий
 var uploadComment = document.querySelector('.text__description');
 var textareaChangeHandler = function () {
