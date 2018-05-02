@@ -156,21 +156,23 @@ var scaleImgPreview = function (val) {
 };
 // Функция при клике на минус
 var decreaseControlClickHandler = function () {
-  var currentValue = parseInt(scaleValue.value);
+  var currentValue = parseInt(scaleValue.value, 10);
   while (currentValue > MIN_VALUE) {
     var newValue = currentValue - step;
     scaleImgPreview(newValue);
-    return scaleValue.value = newValue + '%';
+    scaleValue.value = newValue + '%';
   }
+  return;
 };
 // Функция при клике на плюс
 var increaseControlClickHandler = function () {
-  var currentValue = parseInt(scaleValue.value);
+  var currentValue = parseInt(scaleValue.value, 10);
   while (currentValue < MAX_VALUE) {
     var newValue = currentValue + step;
     scaleImgPreview(newValue);
-    return scaleValue.value = newValue + '%';
+    scaleValue.value = newValue + '%';
   }
+  return;
 };
 decreaseControl.addEventListener('click', decreaseControlClickHandler);
 increaseControl.addEventListener('click', increaseControlClickHandler);
@@ -290,7 +292,6 @@ radioChangeHandler();
 var radioArea = document.querySelector('.effects__list');
 radioArea.addEventListener('change', radioChangeHandler);
 
-
 // ХЭШ-ТЕГИ
 var hashtagsInput = document.querySelector('.text__hashtags');
 var regexp = /^#\S+/i;
@@ -300,48 +301,58 @@ var showErrorMessage = function (elem, text, colorOutline) {
   elem.style.outline = '2px solid ' + colorOutline;
 };
 
-var formEventDefaultHandler = function (evt) {
-  evt.preventDefault();
+
+var errorText = {
+  number: 'Количество хэштегов не должно превышать 5',
+  identical: 'Хэштеги не должны повторяться',
+  oneСharacter: 'Xештег не может состоять только из одного символа',
+  missingHashSymbol: 'Хештег должен начинаться с символа #',
+  length: 'Длина хештега не должна превышать 20 символов'
 };
+
 var formImgUpload = document.querySelector('.img-upload__form');
 
-var hashtagsInputHandler = function () {
+var hashtagsInputHandler = function (evt) {
+  evt.preventDefault();
 
-  var hashtagsStr = hashtagsInput.value.toLowerCase().trim();
-  var hashtagsArray = hashtagsStr.split(' ');
-  var sortedHashtagsArray = hashtagsArray.slice().sort();
-  var error = false;
+  var hashtagsArray = hashtagsInput.value.toLowerCase().trim().split(' ');
   var errorOutlineColor = 'red';
   var noErrorOutlineColor = 'transparent';
+
   showErrorMessage(hashtagsInput, '', noErrorOutlineColor);
-  // Прверка на количество хештегов
+
   if (hashtagsArray.length > 5) {
-    showErrorMessage(hashtagsInput, 'Количество хэштегов не должно превышать 5', errorOutlineColor);
-    error = true;
+    showErrorMessage(hashtagsInput, errorText.number, errorOutlineColor);
   }
-  for (i = 0; i < sortedHashtagsArray.length - 1; i++) {
-    if (sortedHashtagsArray[i + 1] === sortedHashtagsArray[i]) {
-      showErrorMessage(hashtagsInput, 'Хэштеги не должны повторяться', errorOutlineColor);
-      error = true;
-      break;
+
+  var obj = {};
+  for (i = 0; i < hashtagsArray.length; i++) {
+    if (obj[hashtagsArray[i]]) {
+      obj[hashtagsArray[i]]++;
+    } else {
+      obj[hashtagsArray[i]] = 1;
     }
   }
+  for (i in obj) {
+    if (obj[i] > 1) {
+      showErrorMessage(hashtagsInput, errorText.identical, errorOutlineColor);
+    }
+  }
+
   for (i = 0; i < hashtagsArray.length; i++) {
     if (hashtagsArray[i].length < 2 && !hashtagsArray[i].length === '') {
-      showErrorMessage(hashtagsInput, 'Xештег не может состоять только из одного символа', errorOutlineColor);
-      error = true;
+      showErrorMessage(hashtagsInput, errorText.oneСharacter, errorOutlineColor);
       break;
-    } else if (!regexp.test(hashtagsArray[i])) {
-      showErrorMessage(hashtagsInput, 'Хештег должен начинаться с символа #', errorOutlineColor);
+    } else if (!regexp.test(hashtagsArray[i]) && !hashtagsArray[i].length === '') {
+      showErrorMessage(hashtagsInput, errorText.missingHashSymbol, errorOutlineColor);
       break;
     } else if (hashtagsArray[i].length > 20) {
-      showErrorMessage(hashtagsInput, 'Длина хештега не должна превышать 20 символов', errorOutlineColor);
-      error = true;
+      showErrorMessage(hashtagsInput, errorText.length, errorOutlineColor);
       break;
     }
   }
-  if (error === true) {
-    formImgUpload.addEventListener('submit', formEventDefaultHandler);
+  if (hashtagsInput.checkValidity()) {
+    formImgUpload.submit();
   }
 };
 
