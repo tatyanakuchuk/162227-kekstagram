@@ -187,6 +187,7 @@ var rangeLevel = document.querySelector('.scale__level');
 var defaultPin = 100;
 rangePin.style.left = defaultPin + '%';
 rangeLevel.style.width = defaultPin + '%';
+rangeLevel.style.zIndex = 25;
 
 var rangePinMoveHandler = function (evt) {
   var pinCoords = getCoords(rangePin);
