@@ -187,7 +187,7 @@ var rangeLevel = document.querySelector('.scale__level');
 var defaultPin = 100;
 rangePin.style.left = defaultPin + '%';
 rangeLevel.style.width = defaultPin + '%';
-rangeLevel.style.zIndex = 25;
+rangePin.style.zIndex = 25;
 
 var rangePinDragHandler = function (evt) {
   var pinCoords = getCoords(rangePin);
@@ -214,9 +214,9 @@ var rangePinDragHandler = function (evt) {
 
   document.addEventListener('mousemove', pinMousemoveHandler);
   document.addEventListener('mouseup', pinMouseupHandler);
-
   return false;
 };
+
 rangePin.addEventListener('mousedown', rangePinDragHandler);
 
 rangePin.ondragstart = function () {
