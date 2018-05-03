@@ -194,8 +194,8 @@ var rangePinDragHandler = function (evt) {
   var shiftX = evt.pageX - pinCoords.left;
   var sliderCoords = getCoords(rangeLine);
 
-  var pinMousemoveHandler = function (evt) {
-    var newLeft = evt.pageX - shiftX - sliderCoords.left;
+  var pinMousemoveHandler = function (moveEvt) {
+    var newLeft = moveEvt.pageX - shiftX - sliderCoords.left;
     if (newLeft < 0) {
       newLeft = 0;
     }
