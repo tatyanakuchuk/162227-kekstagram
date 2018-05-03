@@ -193,7 +193,6 @@ var rangePinDragHandler = function (evt) {
   var pinCoords = getCoords(rangePin);
   var shiftX = evt.pageX - pinCoords.left;
   var sliderCoords = getCoords(rangeLine);
-  var rightEdge = rangeLine.offsetWidth;
 
   var pinMousemoveHandler = function (evt) {
     var newLeft = evt.pageX - shiftX - sliderCoords.left;
@@ -214,7 +213,7 @@ var rangePinDragHandler = function (evt) {
   };
 
   document.addEventListener('mousemove', pinMousemoveHandler);
-  document.addEventListener ('mouseup', pinMouseupHandler);
+  document.addEventListener('mouseup', pinMouseupHandler);
 
   return false;
 };
