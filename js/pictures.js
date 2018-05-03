@@ -187,13 +187,15 @@ var rangeLevel = document.querySelector('.scale__level');
 var defaultPin = 100;
 rangePin.style.left = defaultPin + '%';
 rangeLevel.style.width = defaultPin + '%';
+rangePin.style.zIndex = 25;
 
-var rangePinMoveHandler = function (evt) {
+var rangePinDragHandler = function (evt) {
   var pinCoords = getCoords(rangePin);
   var shiftX = evt.pageX - pinCoords.left;
   var sliderCoords = getCoords(rangeLine);
-  document.onmousemove = function (evt) {
-    var newLeft = evt.pageX - shiftX - sliderCoords.left;
+
+  var pinMousemoveHandler = function (moveEvt) {
+    var newLeft = moveEvt.pageX - shiftX - sliderCoords.left;
     if (newLeft < 0) {
       newLeft = 0;
     }
@@ -203,14 +205,19 @@ var rangePinMoveHandler = function (evt) {
     }
     rangePin.style.left = newLeft + 'px';
   };
-  document.onmouseup = function () {
-    document.onmousemove = null;
-    document.onmouseup = null;
-    rangePinMouseupHandler();
+
+  var pinMouseupHandler = function () {
+    document.removeEventListener('mouseup', pinMouseupHandler);
+    document.removeEventListener('mousemove', pinMousemoveHandler);
+    setLevelEffect();
   };
+
+  document.addEventListener('mousemove', pinMousemoveHandler);
+  document.addEventListener('mouseup', pinMouseupHandler);
   return false;
 };
-rangePin.addEventListener('mousedown', rangePinMoveHandler);
+
+rangePin.addEventListener('mousedown', rangePinDragHandler);
 
 rangePin.ondragstart = function () {
   return false;
@@ -234,37 +241,37 @@ var getLevelEffect = function (minLevel, maxLevel) {
 };
 
 // Эффект ХРОМ
-var effectСhromeHandler = function (minLevel, maxLevel) {
+var getСhromeEffect = function (minLevel, maxLevel) {
   return 'grayscale(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 // Эффект СЕПИЯ
-var effectSepiaHandler = function (minLevel, maxLevel) {
+var getSepiaEffect = function (minLevel, maxLevel) {
   return 'sepia(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 // Эффект МАРВИН
-var effectMarvinHandler = function (minLevel, maxLevel) {
+var getMarvinEffect = function (minLevel, maxLevel) {
   return 'invert(' + Math.round(getLevelEffect(minLevel, maxLevel)) + '%' + ')';
 };
 // Эффект ФОБОС
-var effectPhobosHandler = function (minLevel, maxLevel) {
+var getPhobosEffect = function (minLevel, maxLevel) {
   return 'blur(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + 'px' + ')';
 };
 // Эффект ЗНОЙ
-var effectHeatHandler = function (minLevel, maxLevel) {
+var getHeatEffect = function (minLevel, maxLevel) {
   return 'brightness(' + (getLevelEffect(minLevel, maxLevel).toFixed(1)) + ')';
 };
 
-var rangePinMouseupHandler = function () {
+var setLevelEffect = function () {
   if (imgPreview.classList.contains('effects__preview--chrome')) {
-    imgPreview.style.filter = effectСhromeHandler(0, 1);
+    imgPreview.style.filter = getСhromeEffect(0, 1);
   } else if (imgPreview.classList.contains('effects__preview--sepia')) {
-    imgPreview.style.filter = effectSepiaHandler(0, 1);
+    imgPreview.style.filter = getSepiaEffect(0, 1);
   } else if (imgPreview.classList.contains('effects__preview--marvin')) {
-    imgPreview.style.filter = effectMarvinHandler(0, 100);
+    imgPreview.style.filter = getMarvinEffect(0, 100);
   } else if (imgPreview.classList.contains('effects__preview--phobos')) {
-    imgPreview.style.filter = effectPhobosHandler(0, 3);
+    imgPreview.style.filter = getPhobosEffect(0, 3);
   } else if (imgPreview.classList.contains('effects__preview--heat')) {
-    imgPreview.style.filter = effectHeatHandler(1, 3);
+    imgPreview.style.filter = getHeatEffect(1, 3);
   }
 };
 
@@ -277,7 +284,7 @@ var radioChangeHandler = function () {
     if (radioButtonsList[i].checked) {
       radioButtonVal = radioButtonsList[i].value;
       imgPreview.classList.add('effects__preview--' + radioButtonVal);
-      rangePinMouseupHandler();
+      setLevelEffect();
     }
   }
   var range = document.querySelector('.img-upload__scale');
@@ -285,7 +292,7 @@ var radioChangeHandler = function () {
     range.classList.add('hidden');
   } else {
     range.classList.remove('hidden');
-    rangePinMouseupHandler();
+    setLevelEffect();
   }
 };
 radioChangeHandler();
