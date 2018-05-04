@@ -26,7 +26,7 @@
       missingHashSymbol: 'Хештег должен начинаться с символа #',
       length: 'Длина хештега не должна превышать 20 символов'
     }
-  }
+  };
 })();
 
 // util.js
@@ -42,7 +42,7 @@
     setDefaultValue: function (elem, defaultValue) {
       elem.value = defaultValue + '%';
     }
-  }
+  };
 })();
 
 // gallery.js модуль, который работает с галереей изображений;
@@ -216,6 +216,8 @@
     openBigPhoto();
   };
 
+  var ESC_KEYCODE = 27;
+
   var bigPhotoEscPressHandler = function (evt) {
     if (evt.keyCode === ESC_KEYCODE) {
       closeBigPhoto();
@@ -267,7 +269,7 @@
   };
   var getCurrentValue = function (val) {
     return parseInt(val, 10);
-  }
+  };
   // Функция при клике на минус
   var decreaseControlClickHandler = function () {
     while (getCurrentValue(scaleValue.value) > MIN_VALUE) {
