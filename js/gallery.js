@@ -45,8 +45,6 @@
     elem.style.outline = '2px solid ' + colorOutline;
   };
 
-  var formImgUpload = document.querySelector('.img-upload__form');
-
   var hashtagsInputHandler = function (evt) {
     evt.preventDefault();
 
@@ -87,11 +85,19 @@
       }
     }
     if (hashtagsInput.checkValidity()) {
-      formImgUpload.submit();
+      uploadForm.submit();
     }
   };
 
-  formImgUpload.addEventListener('submit', hashtagsInputHandler);
+  uploadForm.addEventListener('submit', hashtagsInputHandler);
+
+// AJAX Отправка данных на сервер
+  uploadForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(uploadForm), function (response) {
+      closePopup();
+    });
+    evt.preventDefault();
+  });
 
   hashtagsInput.addEventListener('focus', function () {
     document.removeEventListener('keydown', popupEscPressHandler);
