@@ -51,11 +51,13 @@
   });
 
   // Показ изображения в полноэкранном режиме
-  var showBigPhoto = function () {
-    var thumbsPhotos = document.querySelectorAll('.picture__img');
-    for (var i = 0; i < thumbsPhotos.length; i++) {
-      thumbsPhotos[i].addEventListener('click', getBigPhoto);
-    }
-  };
-  showBigPhoto();
+  // var showBigPhoto = function () {
+  var thumbsPhotos = document.querySelectorAll('.picture__img');
+  for (var i = 0; i < thumbsPhotos.length; i++) {
+    thumbsPhotos[i].addEventListener('click', getBigPhoto);
+  }
+  // };
+  // showBigPhoto();
+
+
 })();
