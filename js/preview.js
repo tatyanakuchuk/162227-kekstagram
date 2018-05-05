@@ -27,8 +27,6 @@
     openBigPhoto();
   };
 
-
-
   var ESC_KEYCODE = 27;
 
   var bigPhotoEscPressHandler = function (evt) {
@@ -54,10 +52,10 @@
 
   // Показ изображения в полноэкранном режиме
   // var showBigPhoto = function () {
-    var thumbsPhotos = document.querySelectorAll('.picture__img');
-    for (var i = 0; i < thumbsPhotos.length; i++) {
-      thumbsPhotos[i].addEventListener('click', getBigPhoto);
-    }
+  var thumbsPhotos = document.querySelectorAll('.picture__img');
+  for (var i = 0; i < thumbsPhotos.length; i++) {
+    thumbsPhotos[i].addEventListener('click', getBigPhoto);
+  }
   // };
   // showBigPhoto();
 

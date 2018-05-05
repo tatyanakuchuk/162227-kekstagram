@@ -91,7 +91,7 @@
 
   uploadForm.addEventListener('submit', hashtagsInputHandler);
 
-// AJAX Отправка данных на сервер
+  // AJAX Отправка данных на сервер
   uploadForm.addEventListener('submit', function (evt) {
     window.upload(new FormData(uploadForm), function (response) {
       closePopup();

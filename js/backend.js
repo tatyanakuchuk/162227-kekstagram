@@ -26,7 +26,7 @@
 
     xhr.open('POST', URL);
     xhr.send(data);
-  }
+  };
 
 })();
 
@@ -56,14 +56,14 @@
 
     xhr.open('GET', URL);
     xhr.send();
-  }
+  };
 
   window.load(function (newElement) {
     var allPictures = document.querySelector('.pictures');
     var template = document.querySelector('#picture').content.querySelector('.picture__link');
     var fragment = document.createDocumentFragment();
 
-    var newElement = function () {
+    newElement = function () {
       var newPhoto = template.cloneNode(true);
       newPhoto.querySelector('img').src = 'photos/' + i + '.jpg';
       newPhoto.querySelector('.picture__stat--likes').textContent = window.util.findRandomInt(15, 200);
