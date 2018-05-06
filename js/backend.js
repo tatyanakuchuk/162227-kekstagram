@@ -75,6 +75,8 @@
       newElement(i);
     }
     allPictures.appendChild(fragment);
+
+    document.querySelector('.img-filters').classList.remove('img-filters--inactive');
   });
 
 })();

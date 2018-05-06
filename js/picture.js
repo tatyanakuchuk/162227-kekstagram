@@ -2,22 +2,35 @@
 
 (function () {
 
-  // var allPictures = document.querySelector('.pictures');
-  // var template = document.querySelector('#picture').content.querySelector('.picture__link');
-  // var fragment = document.createDocumentFragment();
-  //
-  // var newElement = function () {
-  //   var newPhoto = template.cloneNode(true);
-  //   newPhoto.querySelector('img').src = 'photos/' + i + '.jpg';
-  //   newPhoto.querySelector('.picture__stat--likes').textContent = window.util.findRandomInt(15, 200);
-  //   newPhoto.querySelector('.picture__stat--comments').textContent = window.util.findRandomInt(1, 2);
-  //   fragment.appendChild(newPhoto);
-  // };
-  //
-  // for (var i = 1; i <= 25; i++) {
-  //   newElement(i);
-  // }
-  //
-  // allPictures.appendChild(fragment);
+  // Рекомендуемые
+  var filterPopular = document.querySelector('#filter-popular');
+  var recommendedHandler = function () {
+
+  };
+  filterPopular.addEventListener('click', recommendedHandler);
+
+  // Новые
+  var filterNew = document.querySelector('#filter-new');
+  var newHandler = function () {
+
+  };
+  filterPopular.addEventListener('click', newHandler);
+
+  // Обсуждаемые
+  var filterDiscussed = document.querySelector('#filter-discussed');
+  var arr = [];
+  var discussedHandler = function () {
+    // Сортировка по убыванию
+    arr.sort(function(first, second) {
+      if (first.comments < second.comments) {
+        return 1;
+      } else if (first.comments > second.comments) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  };
+  filterPopular.addEventListener('click', discussedHandler);
 
 })();
