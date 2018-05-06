@@ -52,6 +52,17 @@
     }
   };
 
+  var closeBigPhoto = function () {
+    bigPicture.classList.add('hidden');
+    document.removeEventListener('keydown', bigPhotoEscPressHandler);
+    document.querySelector('body').classList.remove('modal-open');
+  };
+
+  var bigPhotoClose = document.querySelector('.big-picture__cancel');
+  bigPhotoClose.addEventListener('click', function () {
+    closeBigPhoto();
+  });
+
   var openBigPhoto = function () {
     bigPicture.classList.remove('hidden');
     document.addEventListener('keydown', bigPhotoEscPressHandler);
