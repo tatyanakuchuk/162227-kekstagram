@@ -36,7 +36,6 @@
     uploadForm.reset();
   });
 
-  // ХЭШ-ТЕГИ
   var hashtagsInput = document.querySelector('.text__hashtags');
   var regexp = /^#\S+/i;
 
@@ -91,7 +90,6 @@
 
   uploadForm.addEventListener('submit', hashtagsInputHandler);
 
-  // AJAX Отправка данных на сервер
   uploadForm.addEventListener('submit', function (evt) {
     window.upload(new FormData(uploadForm), function (response) {
       closePopup();
