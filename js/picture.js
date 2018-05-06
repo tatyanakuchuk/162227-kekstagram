@@ -26,8 +26,6 @@
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 
   var filtersPicturesHandler = function (evt) {
-    var filtersButtonsList = document.querySelectorAll('.img-filters__button');
-    for (var i = 0; i < filtersButtonsList.length; i++) {
       var id = evt.target.id;
       if (id === 'filter-popular') {
         renderAllPictures();
@@ -42,8 +40,6 @@
         console.log(3);
         // здесь применяем фильтр
       }
-    }
-
   };
 
   var filtersButtonArea = document.querySelector('.img-filters__form');
