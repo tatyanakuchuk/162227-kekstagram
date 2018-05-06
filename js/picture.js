@@ -27,7 +27,8 @@
       var allPicturesArr = [];
       var pictureList = document.querySelectorAll('.picture__link img');
       for (var i =0; i < pictureList.length; i++) {
-        allPicturesArr.push(picture);
+        allPicturesArr[i] = pictureList[i];
+        allPicturesArr.push(allPicturesArr[i]);
       }
       return allPicturesArr;
     };
