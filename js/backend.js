@@ -1,6 +1,5 @@
 'use strict';
 
-// Функция для отправки данных на сервер
 (function () {
 
   var URL = 'https://js.dump.academy/kekstagram';
@@ -28,8 +27,7 @@
     xhr.send(data);
   };
 
-// Функция получения данных с сервера
-  var URL = 'https://js.dump.academy/kekstagram/data';
+  URL = 'https://js.dump.academy/kekstagram/data';
 
   window.load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();

@@ -91,7 +91,7 @@
   uploadForm.addEventListener('submit', hashtagsInputHandler);
 
   uploadForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(uploadForm), function (response) {
+    window.upload(new FormData(uploadForm), function () {
       closePopup();
     });
     evt.preventDefault();
