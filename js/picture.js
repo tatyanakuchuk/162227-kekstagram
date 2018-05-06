@@ -54,11 +54,14 @@
     if (id === 'filter-popular') {
       clearAllPictures();
       renderAllPictures();
-    } else if (id === 'filter-new') {
+    } else if (id === 'filter-random') {
       clearAllPictures();
 
       renderAllPictures();
     } else if (id === 'filter-discussed') {
+      clearAllPictures();
+      renderAllPictures();
+    } else if (id === 'filter-recommend') {
       clearAllPictures();
       renderAllPictures();
     }
