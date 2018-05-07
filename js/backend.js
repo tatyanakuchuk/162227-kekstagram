@@ -40,6 +40,7 @@
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
+
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения');
     });
@@ -51,5 +52,7 @@
     xhr.open('GET', URL);
     xhr.send();
   };
+
+
 
 })();
