@@ -18,7 +18,7 @@
     });
   };
 
-renderAllPictures();
+  renderAllPictures();
   var bigPicture = document.querySelector('.big-picture');
   var getRandomComment = function () {
     return '<li class="social__comment social__comment--text"><img class="social__picture" src="img/avatar-' + window.util.findRandomInt(1, 6) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">' + window.util.getRandomIndex(window.data.photoComments) + '</li>';
@@ -92,10 +92,7 @@ renderAllPictures();
     // console.log(thumbsPhotos[i]);
   };
 
-
-
   var filtersButtonArea = document.querySelector('.img-filters__form');
   filtersButtonArea.addEventListener('click', filtersPicturesHandler);
-
 
 })();

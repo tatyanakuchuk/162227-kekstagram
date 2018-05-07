@@ -12,7 +12,7 @@
     setDefaultValue: function (elem, defaultValue) {
       elem.value = defaultValue + '%';
     },
-    getBigPhoto: function () {
+    getBigPhoto: function (bigPicture) {
       bigPicture.querySelector('img').src = 'photos/' + 1 + '.jpg';
       bigPicture.querySelector('.social__caption').innerHTML = window.util.getRandomIndex(window.data.photoDescriptions);
       bigPicture.querySelector('.likes-count').textContent = window.util.findRandomInt(15, 200);
