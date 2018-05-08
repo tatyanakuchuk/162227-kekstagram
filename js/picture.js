@@ -80,25 +80,28 @@
       pictureList[i].parentNode.removeChild(pictureList[i]);
     }
   };
-
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 
   var filtersPicturesHandler = function (evt) {
-    // clearAllPictures();
+    clearAllPictures();
+
+    var btn = evt.target;
+    var btnList = btn.parentNode.children;
+
+    for (var i = 0; i < btnList.length; i++) {
+      btnList[i].classList.remove('img-filters__button--active');
+    }
+    btn.classList.add('img-filters__button--active');
 
     var id = evt.target.id;
-    if (id === 'filter-popular') {
-      clearAllPictures();
-      renderAllPictures();
+    if (id === 'filter-recommend') {
+      console.log(1);
+    } else if (id === 'filter-popular') {
+      console.log(2);
     } else if (id === 'filter-random') {
-      clearAllPictures();
-      renderAllPictures();
+      console.log(3);
     } else if (id === 'filter-discussed') {
-      clearAllPictures();
-      renderAllPictures();
-    } else if (id === 'filter-recommend') {
-      clearAllPictures();
-      renderAllPictures();
+      console.log(4);
     }
   };
 
